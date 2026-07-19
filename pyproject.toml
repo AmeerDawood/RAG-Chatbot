@@ -1,0 +1,29 @@
+[project]
+name = "uoj-chatbot-groq"
+version = "1.0.0"
+description = "University of Jhang RAG chatbot — Groq generation, local HuggingFace embeddings, ChromaDB + LlamaIndex retrieval."
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "Django>=5.2,<6",
+    "djangorestframework>=3.16",
+    "djangorestframework-simplejwt>=5.5",
+    "django-cors-headers>=4.7",
+    "django-redis>=6.0",
+    "redis>=6.0",
+    "python-dotenv>=1.1",
+
+    "chromadb>=0.4.24,<0.5",
+    "llama-index-core>=0.10,<0.11",
+    "llama-index-embeddings-huggingface>=0.2",
+    "llama-index-vector-stores-chroma>=0.1.10,<0.2",
+    "llama-index-llms-groq>=0.1",
+    "sentence-transformers>=2.7",
+
+    "PyMuPDF>=1.24",
+    "python-docx>=1.1",
+    "pandas>=2.2",
+    "openpyxl>=3.1",
+]
+
+[tool.uv]
+package = false
