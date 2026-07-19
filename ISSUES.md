@@ -2,7 +2,7 @@
 
 Source reviewed: `D:\fyp\uoj_chatbot\uoj_chatbot` (Django + DRF, OpenAI + ChromaDB + LlamaIndex RAG
 pipeline). Each issue below lists what was found, its root cause, and how the new project
-(`uoj_chatbot_groq`) addresses it. Issues are grouped by severity.
+(`umt_chatbot_groq`) addresses it. Issues are grouped by severity.
 
 ## Critical (security)
 
@@ -14,7 +14,7 @@ it. The hardcoded values were the actual working credentials, just duplicated in
 git tracks.
 - **Root cause**: values were pasted directly during early development and never removed once
   `.env` loading was added.
-- **Fix**: `uoj_chatbot_groq/settings.py` reads every secret exclusively from `.env` (raises at
+- **Fix**: `umt_chatbot_groq/settings.py` reads every secret exclusively from `.env` (raises at
   startup if `SECRET_KEY` is missing); `.env.example` ships with blank placeholders; `.env` is
   gitignored.
 - **Action needed from you**: rotate the OpenAI key, Django secret key, and Gmail app password
@@ -99,7 +99,7 @@ Mixed `print()` and `logger.*` calls throughout, no log formatter (bare `StreamH
 ## Out of scope for this migration (dropped, by your decision)
 
 The following modules existed in the original project but are not part of the RAG chatbot itself
-and were dropped from `uoj_chatbot_groq` per your "core chatbot only" scope decision: the admin
+and were dropped from `umt_chatbot_groq` per your "core chatbot only" scope decision: the admin
 analytics dashboard (visitor/user/question stat charts, PDF report export via `xhtml2pdf`), the
 notifications system, the feedback module, the contact-us form, OTP-based password reset, Google
 OAuth login, profile picture uploads, and general user self-management CRUD. Their unused

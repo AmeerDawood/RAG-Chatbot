@@ -1,6 +1,6 @@
-# UOJ Chatbot (Groq edition)
+# UMT Chatbot (Groq edition)
 
-A standalone Django + DRF RAG chatbot for the University of Jhang, migrated off OpenAI entirely:
+A standalone Django + DRF RAG chatbot for the University of Management and Technology, migrated off OpenAI entirely:
 answer generation now calls **Groq**, and embeddings run on a **free, local, open-source
 HuggingFace model** (no OpenAI API key, no per-call embedding cost). The retrieval *pipeline
 design* — chunking strategy, ChromaDB as the vector store, LlamaIndex as the indexing/retrieval
@@ -35,7 +35,7 @@ part of this project.
 ## Project layout
 
 ```
-uoj_chatbot_groq/       Django settings, root urls, asgi/wsgi
+umt_chatbot_groq/       Django settings, root urls, asgi/wsgi
 authenticate/           Minimal JWT auth (signup/login/token refresh), custom User (email login)
 chatbot/
   models.py             ChatHistory, UploadedFile, AnonymousUserLog

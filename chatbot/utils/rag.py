@@ -35,13 +35,13 @@ logger = logging.getLogger(__name__)
 
 NO_CONTEXT_RESPONSE = (
     "Information related to this question is currently unavailable from the "
-    "University of Jhang's official sources. You may try rephrasing your query."
+    "University of Management and Technology's official sources. You may try rephrasing your query."
 )
 MISSING_CREDENTIALS_RESPONSE = "AI service is unavailable due to missing API credentials."
 GENERATION_ERROR_RESPONSE = "Our AI system is currently experiencing issues. Please try again later."
 
 SYSTEM_PROMPT = (
-    "You are a strict university assistant for the University of Jhang (https://www.uoj.edu.pk/).\n"
+    "You are a strict university assistant for the University of Management and Technology (https://www.umt.edu.pk/).\n"
     "You must ONLY use the provided context below to answer user questions.\n"
     "Do NOT use your own knowledge. If the context does not contain the answer, respond exactly:\n"
     "Information not found exactly. You may try rephrasing your query.\n"
@@ -51,7 +51,7 @@ SYSTEM_PROMPT = (
     "- Do NOT use external knowledge.\n"
     "- Do NOT answer if the context does not clearly support it.\n"
     "- If the question is unrelated, respond:\n"
-    "  This question is outside my scope for the University of Jhang. Please refer to other sources for more information."
+    "  This question is outside my scope for the University of Management and Technology. Please refer to other sources for more information."
 )
 
 _groq_llm = None
@@ -84,7 +84,7 @@ def generate_rag_response(query: str) -> str:
         context, nodes = retrieve_context(query)
     except Exception:
         logger.exception('Failed to retrieve vector context for query: %s', query)
-        return 'Unable to find relevant information from UOJ records.'
+        return 'Unable to find relevant information from UMT records.'
 
     if not nodes:
         return NO_CONTEXT_RESPONSE

@@ -1,7 +1,7 @@
 [project]
-name = "uoj-chatbot-groq"
+name = "umt-chatbot-groq"
 version = "1.0.0"
-description = "University of Jhang RAG chatbot — Groq generation, local HuggingFace embeddings, ChromaDB + LlamaIndex retrieval."
+description = "University of Management and Technology RAG chatbot — Groq generation, local HuggingFace embeddings, ChromaDB + LlamaIndex retrieval."
 requires-python = ">=3.11,<3.13"
 dependencies = [
     "Django>=5.2,<6",

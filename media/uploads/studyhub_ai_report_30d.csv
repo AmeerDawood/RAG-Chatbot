@@ -1,0 +1,33 @@
+--- AI Tools Report ---
+Metric,Value
+total_requests,14
+chatbot,3
+quiz,6
+summarizer,5
+avg_rating,5.0
+
+Requests per Tool
+Tool,Requests
+Chatbot,3
+Quiz Gen,6
+Summarizer,5
+
+Top Prompts / Requests
+Prompt,Tool,Hits
+hi,Chatbot,1
+hi,Chatbot,1
+hello,Chatbot,1
+
+Top Rated Features
+Feature,Rating
+AI quiz,5
+
+Needs AI Optimization (Low Rated)
+Feature,Rating
+AI quiz,5
+
+Most Active Users
+Name,AI Interactions
+shaista,11
+admin1,3
+

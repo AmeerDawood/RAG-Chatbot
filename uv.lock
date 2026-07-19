@@ -2521,7 +2521,7 @@ wheels = [
 ]
 
 [[package]]
-name = "uoj-chatbot-groq"
+name = "umt-chatbot-groq"
 version = "1.0.0"
 source = { virtual = "." }
 dependencies = [

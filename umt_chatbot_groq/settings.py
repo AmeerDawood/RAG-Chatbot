@@ -1,5 +1,5 @@
 """
-Django settings for uoj_chatbot_groq project.
+Django settings for umt_chatbot_groq project.
 
 All secrets and environment-specific values are read from `.env` (see
 `.env.example` for the full list). Nothing sensitive is hardcoded here.
@@ -68,7 +68,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'uoj_chatbot_groq.urls'
+ROOT_URLCONF = 'umt_chatbot_groq.urls'
 
 TEMPLATES = [
     {
@@ -86,8 +86,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'uoj_chatbot_groq.wsgi.application'
-ASGI_APPLICATION = 'uoj_chatbot_groq.asgi.application'
+WSGI_APPLICATION = 'umt_chatbot_groq.wsgi.application'
+ASGI_APPLICATION = 'umt_chatbot_groq.asgi.application'
 
 # ---------------------------------------------------------------------------
 # Database

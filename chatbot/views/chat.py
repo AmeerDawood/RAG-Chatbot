@@ -22,7 +22,7 @@ CACHE_TIMEOUT_SECONDS = 600
 
 GREETINGS = {'hi', 'hello', 'hey', 'salam', 'assalamualaikum'}
 GREETING_RESPONSE = (
-    'Hello! Welcome to the University of Jhang Assistance Portal. How may I help you today?'
+    'Hello! Welcome to the University of Management and Technology Assistance Portal. How may I help you today?'
 )
 
 _FALLBACK_MARKERS = (

@@ -1,0 +1,377 @@
+{
+	"info": {
+		"_postman_id": "b6b1a5d0-8e2a-4a5a-9c1a-umtchatbotgroq",
+		"name": "UMT Chatbot (Groq edition)",
+		"description": "Django + DRF RAG chatbot API for the University of Management and Technology. Covers auth (JWT), chat query/history, and admin-only document management endpoints.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Get CSRF Cookie",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/auth/api/set-csrf/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "api", "set-csrf", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Signup",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"jdoe\",\n    \"email\": \"jdoe@example.com\",\n    \"password\": \"StrongPass123\",\n    \"confirm_password\": \"StrongPass123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/signup/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "signup", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const data = pm.response.json();",
+									"    if (data.tokens) {",
+									"        pm.collectionVariables.set('access_token', data.tokens.access);",
+									"        pm.collectionVariables.set('refresh_token', data.tokens.refresh);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"identifier\": \"jdoe@example.com\",\n    \"password\": \"StrongPass123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/login/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "login", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Logged-in User (Me)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"auth": {
+							"type": "bearer",
+							"bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/me/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "me", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"auth": {
+							"type": "bearer",
+							"bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/logout/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "logout", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Token Obtain Pair",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\": \"jdoe\",\n    \"password\": \"StrongPass123\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/token/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "token", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Token Refresh",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const data = pm.response.json();",
+									"    if (data.access) {",
+									"        pm.collectionVariables.set('access_token', data.access);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"refresh\": \"{{refresh_token}}\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/auth/token/refresh/",
+							"host": ["{{base_url}}"],
+							"path": ["auth", "token", "refresh", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Chat",
+			"item": [
+				{
+					"name": "Ask Query",
+					"request": {
+						"method": "POST",
+						"header": [{"key": "Content-Type", "value": "application/json"}],
+						"auth": {
+							"type": "bearer",
+							"bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+						},
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"query\": \"What programs does UMT offer?\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/query/",
+							"host": ["{{base_url}}"],
+							"path": ["query", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Chat Response By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"auth": {
+							"type": "bearer",
+							"bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+						},
+						"url": {
+							"raw": "{{base_url}}/chat-response/{{chat_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["chat-response", "{{chat_id}}", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Chat History List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"auth": {
+							"type": "bearer",
+							"bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+						},
+						"url": {
+							"raw": "{{base_url}}/chat-history/",
+							"host": ["{{base_url}}"],
+							"path": ["chat-history", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Chat History Delete One",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"auth": {
+							"type": "bearer",
+							"bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+						},
+						"url": {
+							"raw": "{{base_url}}/chat-history/{{chat_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["chat-history", "{{chat_id}}", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Chat History Delete All",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"auth": {
+							"type": "bearer",
+							"bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+						},
+						"url": {
+							"raw": "{{base_url}}/chat-history/delete-all/",
+							"host": ["{{base_url}}"],
+							"path": ["chat-history", "delete-all", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Documents (Admin only)",
+			"item": [
+				{
+					"name": "Upload Document",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"if (pm.response.code === 200) {",
+									"    const data = pm.response.json();",
+									"    if (data.uploaded_id) {",
+									"        pm.collectionVariables.set('uploaded_id', data.uploaded_id);",
+									"    }",
+									"}"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"auth": {
+							"type": "bearer",
+							"bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+						},
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{"key": "title", "value": "Admission Policy 2026", "type": "text"},
+								{"key": "file", "type": "file", "src": []}
+							]
+						},
+						"url": {
+							"raw": "{{base_url}}/upload/",
+							"host": ["{{base_url}}"],
+							"path": ["upload", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check Upload Status",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"auth": {
+							"type": "bearer",
+							"bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+						},
+						"url": {
+							"raw": "{{base_url}}/upload/status/{{uploaded_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["upload", "status", "{{uploaded_id}}", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Upload List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"auth": {
+							"type": "bearer",
+							"bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+						},
+						"url": {
+							"raw": "{{base_url}}/upload/list/",
+							"host": ["{{base_url}}"],
+							"path": ["upload", "list", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Uploaded File",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"auth": {
+							"type": "bearer",
+							"bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+						},
+						"url": {
+							"raw": "{{base_url}}/delete-file/{{uploaded_id}}/",
+							"host": ["{{base_url}}"],
+							"path": ["delete-file", "{{uploaded_id}}", ""]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Chroma List Docs",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"auth": {
+							"type": "bearer",
+							"bearer": [{"key": "token", "value": "{{access_token}}", "type": "string"}]
+						},
+						"url": {
+							"raw": "{{base_url}}/chroma-list-docs/",
+							"host": ["{{base_url}}"],
+							"path": ["chroma-list-docs", ""]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{"key": "base_url", "value": "http://localhost:8000", "type": "string"},
+		{"key": "access_token", "value": "", "type": "string"},
+		{"key": "refresh_token", "value": "", "type": "string"},
+		{"key": "chat_id", "value": "1", "type": "string"},
+		{"key": "uploaded_id", "value": "1", "type": "string"}
+	]
+}
