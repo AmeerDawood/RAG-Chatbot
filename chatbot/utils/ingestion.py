@@ -23,6 +23,7 @@ from django.conf import settings
 from llama_index.core.node_parser import SimpleNodeParser
 from llama_index.core.readers import Document
 
+from chatbot.models import UploadedFile
 from .embedding_setup import shared_index
 
 logger = logging.getLogger(__name__)
@@ -110,8 +111,6 @@ def process_uploaded_file(uploaded_file_obj):
         return 'Unsupported file format.'
 
     file_hash = generate_file_hash(filepath)
-
-    from .models import UploadedFile  # local import to avoid circularity at module load
 
     if UploadedFile.objects.filter(file_hash=file_hash, status='success').exclude(
         pk=uploaded_file_obj.pk

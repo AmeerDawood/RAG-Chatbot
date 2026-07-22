@@ -167,7 +167,21 @@ SIMPLE_JWT = {
 }
 
 # ---------------------------------------------------------------------------
-# Cache (used for cached chatbot answers, see chatbot/utils/rag.py)
+# Cache (used to cache chatbot answers, see chatbot/views/chat.py)
+#
+# Caching here is a best-effort performance optimization (avoids re-running
+# retrieval + Groq generation for a repeated question), not a feature the
+# chatbot depends on to function. IGNORE_EXCEPTIONS makes django_redis catch
+# connection failures inside cache.get()/cache.set() and fall back to a safe
+# default (None / no-op) instead of raising, so a down or unreachable Redis
+# degrades the app to "no caching" rather than a 500 on every /query/ call.
+# Ignored exceptions are still logged (as errors) via DJANGO_REDIS_LOGGER.
+#
+# protocol=2 pins the connection to RESP2: redis-py 5+ defaults to RESP3
+# (sending a HELLO handshake on connect), which older Redis servers
+# (pre-6.0, e.g. the common Windows Redis 5.x ports) reject with
+# "unknown command HELLO", breaking every cache call. RESP2 is supported
+# by all Redis versions, so this keeps caching working across environments.
 # ---------------------------------------------------------------------------
 CACHES = {
     'default': {
@@ -175,9 +189,15 @@ CACHES = {
         'LOCATION': os.getenv('REDIS_URL', 'redis://127.0.0.1:6379/1'),
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            'IGNORE_EXCEPTIONS': True,
+            'SOCKET_CONNECT_TIMEOUT': 2,
+            'SOCKET_TIMEOUT': 2,
+            'CONNECTION_POOL_KWARGS': {'protocol': 2},
         },
     }
 }
+DJANGO_REDIS_IGNORE_EXCEPTIONS = True
+DJANGO_REDIS_LOG_IGNORED_EXCEPTIONS = True
 
 # ---------------------------------------------------------------------------
 # LLM / RAG configuration

@@ -11,7 +11,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.authentication import JWTAuthentication
 
-from ..models import UploadedFile
+from chatbot.models import UploadedFile
 from ..serializers import UploadedFileSerializer
 from ..utils.embedding_setup import chroma_collection
 from ..utils.ingestion import ALLOWED_EXTENSIONS, generate_file_hash, process_uploaded_file
